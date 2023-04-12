@@ -43,15 +43,20 @@ app.use(express.static('spa/static'));
 const PORT = 8080;
 
 app.post('/measurement', function (req, res) {
--       console.log("device id    : " + req.body.id + " key         : " + req.body.key + " temperature : " + req.body.t + " humidity    : " + req.body.h);	
-    const {insertedId} = insertMeasurement({id:req.body.id, t:req.body.t, h:req.body.h});
-	res.send("received measurement into " +  insertedId);
+
+    const datenow= new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', hour12: false }).replace(',', '');
+    
+-   console.log("Device id: " + req.body.id + "   Name: " + req.body.name + "   Key: " + req.body.key + "   Temperature: " + req.body.t + " °C" 
++ "   Humidity: " + req.body.h + " %" + "   Pressure: " + req.body.p + " hPa" + "   Date: " + datenow );
+	
+    const {insertedId} = insertMeasurement({id:req.body.id, name:req.body.name, key:req.body.key, t:req.body.t, h:req.body.h, p:req.body.p, d:datenow});
+    res.send("received measurement into " + insertedId);
 });
 
 app.post('/device', function (req, res) {
-	console.log("device id    : " + req.body.id + " name        : " + req.body.n + " key         : " + req.body.k );
+	console.log("device id    : " + req.body.id + " name        : " + req.body.name + " key         : " + req.body.key );
 
-    db.public.none("INSERT INTO devices VALUES ('"+req.body.id+ "', '"+req.body.n+"', '"+req.body.k+"')");
+    db.public.none("INSERT INTO devices VALUES ('"+req.body.id+ "', '"+req.body.name+"', '"+req.body.key+"')");
 	res.send("received new device");
 });
 
@@ -182,16 +187,16 @@ startDatabase().then(async() => {
     await insertMeasurement({id:'00', t:'19', h:'77'});
     await insertMeasurement({id:'00', t:'17', h:'77'});
     await insertMeasurement({id:'01', t:'17', h:'77'});
-    console.log("mongo measurement database Up");
+    console.log("Mongo measurement database Up");
 
     db.public.none("CREATE TABLE devices (device_id VARCHAR, name VARCHAR, key VARCHAR)");
-    db.public.none("INSERT INTO devices VALUES ('00', 'Fake Device 00', '123456')");
-    db.public.none("INSERT INTO devices VALUES ('01', 'Fake Device 01', '234567')");
-    db.public.none("CREATE TABLE users (user_id VARCHAR, name VARCHAR, key VARCHAR)");
-    db.public.none("INSERT INTO users VALUES ('1','Ana','admin123')");
-    db.public.none("INSERT INTO users VALUES ('2','Beto','user123')");
+//    db.public.none("INSERT INTO devices VALUES ('00', 'Fake Device 00', '123456')");
+//    db.public.none("INSERT INTO devices VALUES ('01', 'Fake Device 01', '234567')");
+//    db.public.none("CREATE TABLE users (user_id VARCHAR, name VARCHAR, key VARCHAR)");
+//    db.public.none("INSERT INTO users VALUES ('1','Ana','admin123')");
+//    db.public.none("INSERT INTO users VALUES ('2','Beto','user123')");
 
-    console.log("sql device database up");
+    console.log("SQL device database up");
 
     app.listen(PORT, () => {
         console.log(`Listening at ${PORT}`);

@@ -1,0 +1,4 @@
+{
+    "idf.port": "/dev/ttyUSB0",
+    "cmake.sourceDirectory": "${workspaceFolder}/perception/esp32-pinout/main"
+}

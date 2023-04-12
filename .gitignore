@@ -5,3 +5,5 @@ sdkconfig
 */config.h
 node_modules
 build
+perception/esp32c3-bmp280/sdkconfig.old
+perception/esp32c3-bmp280/config.h
