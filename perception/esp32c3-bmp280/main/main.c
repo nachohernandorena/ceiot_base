@@ -25,14 +25,25 @@
 #include <bmp280.h>
 #include "../config.h"
 
+
 /* HTTP constants that aren't configurable in menuconfig */
-#define WEB_PATH "/measurement"
+#define MEASUREMENT_WEB_PATH "/measurement"
+#define DEVICE_WEB_PATH "/device"
+#define MAC_ADDR_SIZE 6
 
 static const char *TAG = "temp_collector";
 
-static char *BODY = "id="DEVICE_ID"&t=%0.2f&h=%0.2f";
+static char *BODY = "id=%s&name=%s&key=%02x:%02x:%02x:%02x:%02x:%02x&t=%.2f&h=%.2f&p=%.2f";
 
-static char *REQUEST_POST = "POST "WEB_PATH" HTTP/1.0\r\n"
+static char *MEASUREMENT_REQUEST_POST = "POST "MEASUREMENT_WEB_PATH" HTTP/1.0\r\n"
+    "Host: "API_IP_PORT"\r\n"
+    "User-Agent: "USER_AGENT"\r\n"
+    "Content-Type: application/x-www-form-urlencoded\r\n"
+    "Content-Length: %d\r\n"
+    "\r\n"
+    "%s";
+
+static char *DEVICE_REQUEST_POST = "POST "DEVICE_WEB_PATH" HTTP/1.0\r\n"
     "Host: "API_IP_PORT"\r\n"
     "User-Agent: "USER_AGENT"\r\n"
     "Content-Type: application/x-www-form-urlencoded\r\n"
@@ -49,11 +60,12 @@ static void http_get_task(void *pvParameters)
     struct addrinfo *res;
     struct in_addr *addr;
     int s, r;
-    char body[64];
+    char body[100];
+
     char recv_buf[64];
-
-    char send_buf[256];
-
+    char device_send_buf[256];
+    char measurement_send_buf[256];
+ 
     bmp280_params_t params;
     bmp280_init_default_params(&params);
     bmp280_t dev;
@@ -67,7 +79,8 @@ static void http_get_task(void *pvParameters)
 
     float pressure, temperature, humidity;
 
-
+    uint8_t mac[MAC_ADDR_SIZE];
+    
 
     while(1) {
         if (bmp280_read_float(&dev, &temperature, &pressure, &humidity) != ESP_OK) {
@@ -75,14 +88,27 @@ static void http_get_task(void *pvParameters)
         } else {
             ESP_LOGI(TAG, "Pressure: %.2f Pa, Temperature: %.2f C", pressure, temperature);
 //            if (bme280p) {
-                ESP_LOGI(TAG,", Humidity: %.2f\n", humidity);
-		sprintf(body, BODY, temperature , humidity );
-                sprintf(send_buf, REQUEST_POST, (int)strlen(body),body );
+            ESP_LOGI(TAG,", Humidity: %.2f\n", humidity);
+              
+            //Get MAC
+            esp_wifi_get_mac(ESP_IF_WIFI_STA, mac); 
+            ESP_LOGI("MAC address", "MAC address: %02x:%02x:%02x:%02x:%02x:%02x", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+    
+		    snprintf(body, sizeof(body), BODY, DEVICE_ID, USER_AGENT, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5], temperature, humidity, pressure/100.00);
+
+           // Send data to /measurement
+           sprintf(measurement_send_buf, MEASUREMENT_REQUEST_POST, (int)strlen(body),body);  
+           // Send data to /device 
+           sprintf(device_send_buf, DEVICE_REQUEST_POST, (int)strlen(body),body);
+       
 //	    } else {
-//                sprintf(send_buf, REQUEST_POST, temperature , 0);
+//                sprintf(measurement_send_buf, REQUEST_POST, temperature , 0);
 //            }
-	    ESP_LOGI(TAG,"sending: \n%s\n",send_buf);
-        }    
+
+        ESP_LOGI(TAG,"sending: \n%s\n",measurement_send_buf);
+        ESP_LOGI(TAG,"sending: \n%s\n",device_send_buf);
+
+                }    
 
         int err = getaddrinfo(API_IP, API_PORT, &hints, &res);
 
@@ -118,13 +144,16 @@ static void http_get_task(void *pvParameters)
         ESP_LOGI(TAG, "... connected");
         freeaddrinfo(res);
 
-        if (write(s, send_buf, strlen(send_buf)) < 0) {
-            ESP_LOGE(TAG, "... socket send failed");
-            close(s);
-            vTaskDelay(4000 / portTICK_PERIOD_MS);
-            continue;
-        }
+
+    if (write(s, measurement_send_buf, strlen(measurement_send_buf)) < 0 || write(s, device_send_buf, strlen(device_send_buf)) < 0) {
+        ESP_LOGE(TAG, "... socket send failed");
+        close(s);
+        vTaskDelay(4000 / portTICK_PERIOD_MS);
+        continue;
+    }
+
         ESP_LOGI(TAG, "... socket send success");
+
 
         struct timeval receiving_timeout;
         receiving_timeout.tv_sec = 5;
@@ -150,12 +179,15 @@ static void http_get_task(void *pvParameters)
         ESP_LOGI(TAG, "... done reading from socket. Last read return=%d errno=%d.", r, errno);
         close(s);
 
+
         for(int countdown = 10; countdown >= 0; countdown--) {
             ESP_LOGI(TAG, "%d... ", countdown);
             vTaskDelay(1000 / portTICK_PERIOD_MS);
         }
+        
         ESP_LOGI(TAG, "Starting again!");
     }
+ 
 }
 
 void app_main(void)
