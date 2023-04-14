@@ -34,6 +34,7 @@
 static const char *TAG = "temp_collector";
 
 static char *BODY = "id=%s&name=%s&key=%02x:%02x:%02x:%02x:%02x:%02x&t=%.2f&h=%.2f&p=%.2f";
+static char *BODY2= "id=%s&name=%s&key=%02x:%02x:%02x:%02x:%02x:%02x";
 
 static char *MEASUREMENT_REQUEST_POST = "POST "MEASUREMENT_WEB_PATH" HTTP/1.0\r\n"
     "Host: "API_IP_PORT"\r\n"
@@ -61,7 +62,7 @@ static void http_get_task(void *pvParameters)
     struct in_addr *addr;
     int s, r;
     char body[100];
-
+    char body2[100];
     char recv_buf[64];
     char device_send_buf[256];
     char measurement_send_buf[256];
@@ -95,11 +96,11 @@ static void http_get_task(void *pvParameters)
             ESP_LOGI("MAC address", "MAC address: %02x:%02x:%02x:%02x:%02x:%02x", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
     
 		    snprintf(body, sizeof(body), BODY, DEVICE_ID, USER_AGENT, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5], temperature, humidity, pressure/100.00);
-
+            snprintf(body2, sizeof(body2), BODY2, DEVICE_ID, USER_AGENT, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
            // Send data to /measurement
            sprintf(measurement_send_buf, MEASUREMENT_REQUEST_POST, (int)strlen(body),body);  
            // Send data to /device 
-           sprintf(device_send_buf, DEVICE_REQUEST_POST, (int)strlen(body),body);
+           sprintf(device_send_buf, DEVICE_REQUEST_POST, (int)strlen(body2),body2);
        
 //	    } else {
 //                sprintf(measurement_send_buf, REQUEST_POST, temperature , 0);
