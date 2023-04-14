@@ -46,15 +46,16 @@ app.post('/measurement', function (req, res) {
 
     const datenow= new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', hour12: false }).replace(',', '');
     
--   console.log("Device id: " + req.body.id + "   Name: " + req.body.name + "   Key: " + req.body.key + "   Temperature: " + req.body.t + " °C" 
+-   console.log("Device ID: " + req.body.id + "   Name: " + req.body.name + "   Key: " + req.body.key + "   Temperature: " + req.body.t + " °C" 
 + "   Humidity: " + req.body.h + " %" + "   Pressure: " + req.body.p + " hPa" + "   Date: " + datenow );
-	
+
+    db.public.none("INSERT INTO devices VALUES ('"+req.body.id+ "', '"+req.body.name+"', '"+req.body.key+"')");
     const {insertedId} = insertMeasurement({id:req.body.id, name:req.body.name, key:req.body.key, t:req.body.t, h:req.body.h, p:req.body.p, d:datenow});
     res.send("received measurement into " + insertedId);
 });
 
 app.post('/device', function (req, res) {
-	console.log("device id    : " + req.body.id + " name        : " + req.body.name + " key         : " + req.body.key );
+	console.log("Device ID: " + req.body.id + " Name: " + req.body.name + "Key: " + req.body.key );
 
     db.public.none("INSERT INTO devices VALUES ('"+req.body.id+ "', '"+req.body.name+"', '"+req.body.key+"')");
 	res.send("received new device");
@@ -184,9 +185,9 @@ app.get('/admin/:command', function(req,res) {
 
 startDatabase().then(async() => {
     await insertMeasurement({id:'00', t:'18', h:'78'});
-    await insertMeasurement({id:'00', t:'19', h:'77'});
-    await insertMeasurement({id:'00', t:'17', h:'77'});
-    await insertMeasurement({id:'01', t:'17', h:'77'});
+//     await insertMeasurement({id:'00', t:'19', h:'77'});
+//     await insertMeasurement({id:'00', t:'17', h:'77'});
+//     await insertMeasurement({id:'01', t:'17', h:'77'});
     console.log("Mongo measurement database Up");
 
     db.public.none("CREATE TABLE devices (device_id VARCHAR, name VARCHAR, key VARCHAR)");
