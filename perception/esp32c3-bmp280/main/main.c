@@ -33,10 +33,10 @@
 
 static const char *TAG = "temp_collector";
 
-static char *BODY = "id=%s&name=%s&key=%02x:%02x:%02x:%02x:%02x:%02x&t=%.2f&h=%.2f&p=%.2f";
+static char *BODY = "id=%s&name=%s&key=%02x:%02x:%02x:%02x:%02x:%02x&t=%.2f&h=%.0f&p=%.0f";
 static char *BODY2= "id=%s&name=%s&key=%02x:%02x:%02x:%02x:%02x:%02x";
 
-static char *MEASUREMENT_REQUEST_POST = "POST "MEASUREMENT_WEB_PATH" HTTP/1.0\r\n"
+static char *MEASUREMENT_REQUEST_POST = "POST "MEASUREMENT_WEB_PATH" HTTP/2.0\r\n"
     "Host: "API_IP_PORT"\r\n"
     "User-Agent: "USER_AGENT"\r\n"
     "Content-Type: application/x-www-form-urlencoded\r\n"
@@ -44,7 +44,7 @@ static char *MEASUREMENT_REQUEST_POST = "POST "MEASUREMENT_WEB_PATH" HTTP/1.0\r\
     "\r\n"
     "%s";
 
-static char *DEVICE_REQUEST_POST = "POST "DEVICE_WEB_PATH" HTTP/1.0\r\n"
+static char *DEVICE_REQUEST_POST = "POST "DEVICE_WEB_PATH" HTTP/2.0\r\n"
     "Host: "API_IP_PORT"\r\n"
     "User-Agent: "USER_AGENT"\r\n"
     "Content-Type: application/x-www-form-urlencoded\r\n"
