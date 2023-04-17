@@ -9,7 +9,7 @@ const fs = require('fs');
 
 const https = require('https');
 const city = 'Floresta,AR';
-const apiKey = '2189eb7ef1809e292cd9e43813532312'; 
+const apiKey = ''; 
 
 // Measurements database setup and access
 
@@ -228,7 +228,7 @@ startDatabase().then(async() => {
     console.log("Mongo measurement database Up");
 
      db.public.none("CREATE TABLE devices (device_id VARCHAR, name VARCHAR, key VARCHAR)");
- //  db.public.none("CREATE TABLE devices (device_id VARCHAR, name VARCHAR, key VARCHAR PRIMARY KEY)");
+//    db.public.none("CREATE TABLE devices (device_id VARCHAR, name VARCHAR, key VARCHAR PRIMARY KEY)");
 //    db.public.none("INSERT INTO devices VALUES ('00', 'Fake Device 00', '123456')");
 //    db.public.none("INSERT INTO devices VALUES ('01', 'Fake Device 01', '234567')");
 //    db.public.none("CREATE TABLE users (user_id VARCHAR, name VARCHAR, key VARCHAR)");
