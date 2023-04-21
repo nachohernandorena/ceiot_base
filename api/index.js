@@ -42,22 +42,29 @@ async function getMeasurements() {
 
 // GET weather through API from OpenWeatherMap
 function getWeather(city, apiKey) {
-    return new Promise((resolve, reject) => {
+  // Create a new Promise that will resolve or reject based on whether the API request is successful  
+  return new Promise((resolve, reject) => {
       const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+      // Make an HTTPS GET request to the API URL
       https.get(url, (res) => {
         let data = '';
+        // As data is received, add it to the 'data' string
         res.on('data', (chunk) => {
           data += chunk;
         });
+        // When all data has been received, parse it as JSON
         res.on('end', () => {
           const weather = JSON.parse(data);
+          // If the API returns a 404 error, reject the Promise with an error message
           if (weather.cod === '404') {
             reject(new Error('City not found'));
           } else {
+            // If the API returns a valid response, resolve the Promise with an object containing the temperature, humidity, and pressure
             resolve({ temperature: weather.main.temp, humidity: weather.main.humidity, pressure: weather.main.pressure });
             }
         });
       }).on('error', (err) => {
+        // If there is an error with the HTTPS request, reject the Promise with the error object
         reject(err);
       });
     });
@@ -99,7 +106,7 @@ app.post('/measurement', function (req, res) {
     });
 
     const {insertedId} = insertMeasurement({id:req.body.id, t:req.body.t, h:req.body.h, p:req.body.p, d:datenow});
-    res.send("received measurement into " + insertedId);
+    res.send("received measurement into " + insertedId + " \n");
         
     } else {
         res.status(401).send("Invalid key"); 
