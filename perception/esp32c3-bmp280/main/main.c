@@ -36,7 +36,7 @@ static const char *TAG = "temp_collector";
 static char *BODY = "id=%s&name=%s&key=%02x:%02x:%02x:%02x:%02x:%02x&t=%.2f&h=%.0f&p=%.0f";
 static char *BODY2= "id=%s&name=%s&key=%02x:%02x:%02x:%02x:%02x:%02x";
 
-static char *MEASUREMENT_REQUEST_POST = "POST "MEASUREMENT_WEB_PATH" HTTP/2.0\r\n"
+static char *MEASUREMENT_REQUEST_POST = "POST "MEASUREMENT_WEB_PATH" HTTP/1.1\r\n"
     "Host: "API_IP_PORT"\r\n"
     "User-Agent: "USER_AGENT"\r\n"
     "Content-Type: application/x-www-form-urlencoded\r\n"
@@ -44,7 +44,7 @@ static char *MEASUREMENT_REQUEST_POST = "POST "MEASUREMENT_WEB_PATH" HTTP/2.0\r\
     "\r\n"
     "%s";
 
-static char *DEVICE_REQUEST_POST = "POST "DEVICE_WEB_PATH" HTTP/2.0\r\n"
+static char *DEVICE_REQUEST_POST = "POST "DEVICE_WEB_PATH" HTTP/1.1\r\n"
     "Host: "API_IP_PORT"\r\n"
     "User-Agent: "USER_AGENT"\r\n"
     "Content-Type: application/x-www-form-urlencoded\r\n"
@@ -64,6 +64,7 @@ static void http_get_task(void *pvParameters)
     char body[100];
     char body2[100];
     char recv_buf[64];
+    char recv_buf2[64];
     char device_send_buf[256];
     char measurement_send_buf[256];
  
@@ -82,34 +83,29 @@ static void http_get_task(void *pvParameters)
 
     uint8_t mac[MAC_ADDR_SIZE];
     
+    //Get MAC
+    esp_wifi_get_mac(ESP_IF_WIFI_STA, mac); 
+    ESP_LOGI("MAC address", "MAC address: %02x:%02x:%02x:%02x:%02x:%02x", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
 
     while(1) {
         if (bmp280_read_float(&dev, &temperature, &pressure, &humidity) != ESP_OK) {
             ESP_LOGI(TAG, "Temperature/pressure reading failed\n");
         } else {
             ESP_LOGI(TAG, "Pressure: %.2f Pa, Temperature: %.2f C", pressure, temperature);
-//            if (bme280p) {
             ESP_LOGI(TAG,", Humidity: %.2f\n", humidity);
               
-            //Get MAC
-            esp_wifi_get_mac(ESP_IF_WIFI_STA, mac); 
-            ESP_LOGI("MAC address", "MAC address: %02x:%02x:%02x:%02x:%02x:%02x", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
-    
 		    snprintf(body, sizeof(body), BODY, DEVICE_ID, USER_AGENT, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5], temperature, humidity, pressure/100.00);
             snprintf(body2, sizeof(body2), BODY2, DEVICE_ID, USER_AGENT, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
-           // Send data to /measurement
+           // Print /measurement
            sprintf(measurement_send_buf, MEASUREMENT_REQUEST_POST, (int)strlen(body),body);  
-           // Send data to /device 
+           // Print /device 
            sprintf(device_send_buf, DEVICE_REQUEST_POST, (int)strlen(body2),body2);
-       
-//	    } else {
-//                sprintf(measurement_send_buf, REQUEST_POST, temperature , 0);
-//            }
 
-        ESP_LOGI(TAG,"sending: \n%s\n",measurement_send_buf);
         ESP_LOGI(TAG,"sending: \n%s\n",device_send_buf);
+        ESP_LOGI(TAG,"sending: \n%s\n",measurement_send_buf);
+        
 
-                }    
+        }    
 
         int err = getaddrinfo(API_IP, API_PORT, &hints, &res);
 
@@ -146,7 +142,7 @@ static void http_get_task(void *pvParameters)
         freeaddrinfo(res);
 
 
-    if (write(s, measurement_send_buf, strlen(measurement_send_buf)) < 0 || write(s, device_send_buf, strlen(device_send_buf)) < 0) {
+    if (write(s, device_send_buf, strlen(device_send_buf)) < 0  || write(s, measurement_send_buf, strlen(measurement_send_buf)) < 0) {
         ESP_LOGE(TAG, "... socket send failed");
         close(s);
         vTaskDelay(4000 / portTICK_PERIOD_MS);

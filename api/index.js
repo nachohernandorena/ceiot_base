@@ -9,7 +9,10 @@ const fs = require('fs');
 
 const https = require('https');
 const city = 'Floresta,AR';
-const apiKey = ''; 
+const apiKey = '2189eb7ef1809e292cd9e43813532312'; 
+
+const validKeys = ['58:cf:79:16:80:b4', 'key2', 'key3'];
+
 
 // Measurements database setup and access
 
@@ -68,36 +71,40 @@ app.use(express.static('spa/static'));
 const PORT = 8080;
 
 
+app.post('/device', function (req, res) {
+
+        console.log("\nAcquiring data from device ID: " + req.body.id+ "   Name: " + req.body.name + "   Key: " + req.body.key ); 
+        db.public.none("INSERT INTO devices VALUES ('"+req.body.id+ "', '"+req.body.name+"', '"+req.body.key+"')");
+        res.send("received new device");
+  
+});
+
 
 app.post('/measurement', function (req, res) {
 
-   const datenow= new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', hour12: false }).replace(',', '');
+    if (validKeys.includes(req.body.key)) {  //key validation
     
-   console.log("\nAcquiring data from device ID: " + req.body.id+ "   Key: " + req.body.key + "   Date: " +datenow ); 
-   console.log("\t\tTemperature: " + req.body.t+ " °C" + "   Humidity: " + req.body.h + " %" + "   Pressure: " + req.body.p + " hPa");
-   
+    const datenow= new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', hour12: false }).replace(',', '');
+       
+    console.log("On Device \tTemperature: " + req.body.t+ " °C" + "   Humidity: " + req.body.h + " %" + "   Pressure: " + req.body.p + " hPa" + "   Date: " +datenow );
+    
+    // Weather
     getWeather(city, apiKey)
     .then(({temperature, humidity, pressure }) => {
-        console.log(`In: ${city} Temperature: ${temperature} °C   Humidity: ${humidity} %   Pressure: ${pressure} hPa`);
+        console.log(`In ${city} \tTemperature: ${temperature} °C   Humidity: ${humidity} %   Pressure: ${pressure} hPa`);
     })
     .catch((err) => {
         console.error(err);
         res.status(500).send('Error getting the temperature');
     });
 
-  
-   const {insertedId} = insertMeasurement({id:req.body.id, name:req.body.name, key:req.body.key, t:req.body.t, h:req.body.h, p:req.body.p, d:datenow});
-   res.send("received measurement into " + insertedId);
-   
-   db.public.none("INSERT INTO devices VALUES ('"+req.body.id+ "', '"+req.body.name+"', '"+req.body.key+"')");
+    const {insertedId} = insertMeasurement({id:req.body.id, t:req.body.t, h:req.body.h, p:req.body.p, d:datenow});
+    res.send("received measurement into " + insertedId);
+        
+    } else {
+        res.status(401).send("Invalid key"); 
+    }
 });
-
-app.post('/device', function (req, res) {
-	console.log("Device ID: " + req.body.id + " Name: " + req.body.name + "Key: " + req.body.key );
-    db.public.none("INSERT INTO devices VALUES ('"+req.body.id+ "', '"+req.body.name+"', '"+req.body.key+"')");
-	res.send("received new device");
-});
-
 
 app.get('/web/device', function (req, res) {
 	var devices = db.public.many("SELECT * FROM devices").map( function(device) {
@@ -227,8 +234,8 @@ startDatabase().then(async() => {
 //     await insertMeasurement({id:'01', t:'17', h:'77'});
     console.log("Mongo measurement database Up");
 
-     db.public.none("CREATE TABLE devices (device_id VARCHAR, name VARCHAR, key VARCHAR)");
-//    db.public.none("CREATE TABLE devices (device_id VARCHAR, name VARCHAR, key VARCHAR PRIMARY KEY)");
+//     db.public.none("CREATE TABLE devices (device_id VARCHAR, name VARCHAR, key VARCHAR)");
+    db.public.none("CREATE TABLE devices (device_id VARCHAR, name VARCHAR, key VARCHAR PRIMARY KEY)");
 //    db.public.none("INSERT INTO devices VALUES ('00', 'Fake Device 00', '123456')");
 //    db.public.none("INSERT INTO devices VALUES ('01', 'Fake Device 01', '234567')");
 //    db.public.none("CREATE TABLE users (user_id VARCHAR, name VARCHAR, key VARCHAR)");
