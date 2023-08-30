@@ -1,66 +1,56 @@
 # Ejercicio CiberKillChain - Ataque
 
-Hacer una copia de este documento para utilizar com plantilla para el ejercicio quitando las instrucciones y el ejemplo.
+Se realizó una copia del documento original utilizándolo como plantilla para la realización del ejercicio.
 
 ## Alumno
 
-(completar)
+Ignacio Pablo Hernandorena
 
 ## Enunciado
-
 Armar una cyberkillchain usando técnicas de la matriz de Att&ck para un escenario relacionado al trabajo práctico de la carrera.
 
-### Instrucciones
+## Datos del proyecto a evaluar
 
-Debe haber un objetivo para el ataque.
+El proyecto propone el desarrollo de un sistema de gestión de ganado basado en IoT para abordar desafíos en la agricultura y la ganadería en Argentina. Utiliza etiquetas electrónicas (TAGs) con tecnología LoRaWAN para rastrear y controlar el ganado. Estos TAGs están compuestos por paneles solares, GPS y dispositivos LoRaWAN. Los datos de los TAGs se recopilan mediante un gateway y se envían a una plataforma en la nube llamada The Things Stack, que ofrece servicios de gestión segura de dispositivos IoT. También se integra con AllThingsTalk, una plataforma de IoT basada en la nube, que permite a los usuarios delimitar áreas para el ganado, establecer alarmas y monitorear en tiempo real.
 
-El escenario debe ser con el sistema ya funcionando en el futuro.
+[Link a la planificacion del proyecto](https://github.com/nachohernandorena/Plantilla-planificacion/blob/master/charter.pdf) 
 
-Debe ser en primera persona, es el punto de vista del atacante.
+### Resolución:
 
-Es recomendable hacer dos o tres pasadas, en la primera la idea, en las siguientes refinamientos especificando las técnicas.
-PURO ATAQUE, nada de andar pensando cómo corregir nada.
-
-Para cada etapa, si hay varias medidas posibles, ordenar dejando para lo último lo que se va a hacer en el siguiente paso.
-
-### Ejemplo adaptado a un juego de guerra inventado:
-
-Objetivo del ataque: inhabilitar sin destruir el puerto enemigo con vistas a posteriormente tomarlo.
+Objetivo del ataque: Realizar un ataque de ransomware contra el sistema de gestión de ganado IoT para cifrar los datos y exigir un rescate a cambio de su liberación, causando interrupción del funcionamiento de la plataforma.
 
 * Reconnaissance
-  - Imagen satelital identifica una pista de aterrizaje.
-  - Espías dicen que por el puerto entra el combustible.
-  - Espías locales dicen que la playa cercana no tiene buena vigilancia.
+  - Identifico el proyecto de gestión de ganado IoT y las tecnologías utilizadas.
+  - Investigación adicional sobre posibles vulnerabilidades conocidas en las tecnologías y plataformas utilizadas.
+  - Técnica: Gather Victim Host Information [T1592](https://attack.mitre.org/techniques/T1592/)
 
 * Weaponization
-  - Puedo preparar un bombardeo.
-  - Decido preparar un equipo de comandos de sabotage.
+  - Desarrollo o adquiero un malware de ransomware diseñado para cifrar datos de manera eficiente y efectiva.
+  - Técnica: Supply Chain Compromise [T1195](https://attack.mitre.org/techniques/T1195/)
   
 * Delivery
-  - Envío al equipo de sabotage a la playa cercana en submarino.
+  - Utilizo correos electrónicos de phishing altamente personalizados para entregar el malware a través de un enlace o archivo malicioso.
+  - Técnica: Phishing for Information [T1198](https://attack.mitre.org/techniques/T1598/)
   
 * Exploit
-  - El equipo logra desembarcar sin incidentes en la playa.
+  - Si un empleado cae en la trampa y abre el archivo adjunto o hace clic en el enlace, el ransomware se activa y comienza a cifrar los datos en el sistema.
+  - Técnica: Exploitation for Client Execution [T1203](https://attack.mitre.org/techniques/T1203/)
   
 * Installation  
-  - El equipo se hace pasar por una compañia de circo como camuflaje.
+  - El ransomware se propaga por la red, cifrando archivos en los dispositivos IoT y en los servidores de la plataforma en la nube The Things Stack.
+  - Técnica: Ingress Tool Transfer [T1105](https://attack.mitre.org/techniques/T1105/) / Data Encrypted for Impact [T1486](https://attack.mitre.org/techniques/T1486/)
 
 * Command & Control
-  - Podría utilizar palomas mensajeras.
-  - Decido utilizar Super High TeraHertz Radio que el adversario no puede detectar.
+  - Establezco una conexión segura a través de una red privada virtual (VPN) para controlar el ransomware de manera anónima.
+  - Técnica: Remote Access Tools [T1219](https://attack.mitre.org/techniques/T1219/)
   
 * Actions on Objectives
-  - El equipo de comandos provoca daños menores en las cañerías.
-  - El equipo de comandos coloca minas en el puerto dejando un camino para el desembarco.
+  - Una vez que los datos están cifrados, muestro un mensaje de rescate en las pantallas de la plataforma, exigiendo un pago en criptomonedas a cambio de la clave de descifrado.
+  - Técnica: Endpoint Denial of Service [T1499](https://attack.mitre.org/techniques/T1499/) / Data Encrypted for Impact [T1486](https://attack.mitre.org/techniques/T1486/)
+
   
-
-## Datos trabajo práctico
-
-link
-
-Muy breve descripción
-
-## Resolución
+### Links
+https://attack.mitre.org/
 
 
   
