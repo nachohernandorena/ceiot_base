@@ -34,10 +34,10 @@ Objetivo del ataque: Realizar un ataque de ransomware contra el sistema de gesti
   
 * Exploit
   - Si un empleado cae en la trampa y abre el archivo adjunto o hace clic en el enlace, el ransomware se activa y comienza a cifrar los datos en el sistema.
-  - Técnica: Exploitation for Client Execution [T1203](https://attack.mitre.org/techniques/T1203/)
+  - Técnica: User Execution [T1204](https://attack.mitre.org/techniques/T1204/)
   
 * Installation  
-  - El ransomware se propaga por la red, cifrando archivos en los dispositivos IoT y en los servidores de la plataforma en la nube The Things Stack.
+  - El ransomware se propaga cifrando archivos en los dispositivos IoT y en los servidores de la plataforma en la nube The Things Stack.
   - Técnica: Ingress Tool Transfer [T1105](https://attack.mitre.org/techniques/T1105/) / Data Encrypted for Impact [T1486](https://attack.mitre.org/techniques/T1486/)
 
 * Command & Control
