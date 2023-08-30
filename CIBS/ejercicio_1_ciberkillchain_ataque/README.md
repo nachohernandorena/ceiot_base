@@ -17,7 +17,7 @@ El proyecto propone el desarrollo de un sistema de gestión de ganado basado en 
 
 ### Resolución:
 
-Objetivo del ataque: Realizar un ataque de ransomware contra el sistema de gestión de ganado IoT para cifrar los datos y exigir un rescate a cambio de su liberación, causando interrupción del funcionamiento de la plataforma.
+Objetivo del ataque: Realizar un ataque de ransomware contra la base de datos del sistema de gestión de ganado IoT para cifrar los datos y exigir un rescate a cambio de su liberación, causando interrupción del funcionamiento de la plataforma.
 
 * Reconnaissance
   - Identifico el proyecto de gestión de ganado IoT y las tecnologías utilizadas.
