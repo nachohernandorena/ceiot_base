@@ -11,7 +11,7 @@ Armar una cyberkillchain usando técnicas de la matriz de Att&ck para un escenar
 
 ## Datos del proyecto a evaluar
 
-El proyecto propone el desarrollo de un sistema de gestión de ganado basado en IoT para abordar desafíos en la agricultura y la ganadería en Argentina. Utiliza etiquetas electrónicas (TAGs) con tecnología LoRaWAN para rastrear y controlar el ganado. Estos TAGs están compuestos por paneles solares, GPS y dispositivos LoRaWAN. Los datos de los TAGs se recopilan mediante un gateway y se envían a una plataforma en la nube llamada The Things Stack, que ofrece servicios de gestión segura de dispositivos IoT. También se integra con AllThingsTalk, una plataforma de IoT basada en la nube, que permite a los usuarios delimitar áreas para el ganado, establecer alarmas y monitorear en tiempo real. El proyecto contará con una base de datos donde se guardará el registro médico de cada animal.
+Se trata de un sistema de gestión de ganado basado en IoT para abordar desafíos en la agricultura y la ganadería en Argentina. Utiliza etiquetas electrónicas (TAGs) con tecnología LoRaWAN para rastrear y controlar el ganado. Estos TAGs están compuestos por paneles solares, GPS y dispositivos LoRaWAN. Los datos de los TAGs se envían mediante un gateway a una plataforma en la nube llamada The Things Stack, que ofrece servicios de gestión de dispositivos IoT. También se integra con AllThingsTalk, una plataforma de IoT basada en la nube, que permite a los usuarios delimitar áreas para el ganado, establecer alarmas y monitorear en tiempo real. El proyecto contará con una base de datos donde se guardará el registro médico de cada animal.
 
 [Link a la planificacion del proyecto](https://github.com/nachohernandorena/Plantilla-planificacion/blob/master/charter.pdf) 
 
