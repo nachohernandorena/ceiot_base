@@ -26,7 +26,7 @@ Realizar un ataque de ransomware contra la base de datos del sistema de gestión
   - Técnica: Gather Victim Host Information [T1592](https://attack.mitre.org/techniques/T1592/)
 
 * Weaponization
-  - Desarrollo o adquiero un malware de ransomware diseñado para cifrar datos de manera eficiente y efectiva.
+  - Desarrollo o adquiero un malware de ransomware diseñado para cifrar datos.
   - Técnica: Supply Chain Compromise [T1195](https://attack.mitre.org/techniques/T1195/)
   
 * Delivery
