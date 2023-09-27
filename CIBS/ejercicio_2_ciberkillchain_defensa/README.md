@@ -47,5 +47,5 @@ Para cada etapa elegir una sola defensa, la más importante, considerar recursos
 * Reconnaissance:
 
   - Defensa: actualizaciones y parches
-  - Mantén actualizado todo el software y los sistemas utilizados en el proyecto. Los parches de seguridad pueden corregir vulnerabilidades conocidas.
+  - Mantener actualizado todo el software y los sistemas utilizados en el proyecto. Los parches de seguridad pueden corregir vulnerabilidades conocidas.
 
