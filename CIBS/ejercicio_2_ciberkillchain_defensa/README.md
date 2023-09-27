@@ -17,12 +17,12 @@ Para cada etapa elegir una sola defensa, la más importante, considerar recursos
 * Actions on Objectives:
 
   - Defensa: plan de respuesta a incidentes
-  - Un plan de respuesta a incidentes me permitirá responder de manera rápida y efectiva una vez que se haya detectado el ataque de ransomware. Esto incluye tener procesos claros para lidiar con la extorsión y la restauración de datos desde copias de seguridad seguras.
+  - Un plan de respuesta a incidentes permitirá responder de manera rápida y efectiva una vez que se haya detectado el ataque de ransomware. Esto incluye tener procesos claros para lidiar con la extorsión y la restauración de datos desde copias de seguridad seguras.
 
 * Command & Control:
 
   - Defensa: monitoreo de red y tráfico
-  - Establecer un monitoreo constante de la red para detectar patrones de tráfico inusuales o conexiones VPN no autorizadas. Esto me puede ayudar a identificar y bloquear conexiones de comando y control.
+  - Establecer un monitoreo constante de la red para detectar patrones de tráfico inusuales o conexiones VPN no autorizadas. Esto puede ayudar a identificar y bloquear conexiones de comando y control.
 
 * Installation:
 
