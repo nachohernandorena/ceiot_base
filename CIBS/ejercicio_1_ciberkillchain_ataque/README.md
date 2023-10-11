@@ -39,7 +39,7 @@ Realizar un ataque de ransomware contra la base de datos del sistema de gestión
   
 * Installation  
   - El ransomware cifra archivos en los dispositivos IoT y en los servidores de la plataforma en la nube.
-  - Técnica: Data Encrypted for Impact [T1486](https://attack.mitre.org/techniques/T1486/) - Ejemplo: [S1486](https://attack.mitre.org/software/S0446/)
+  - Técnica: Data Encrypted for Impact [T1486](https://attack.mitre.org/techniques/T1486/) - Ejemplo: [S0446](https://attack.mitre.org/software/S0446/)
 
 * Command & Control
   - Establezco una conexión segura a través de una red privada virtual (VPN) para controlar el ransomware de manera anónima.
