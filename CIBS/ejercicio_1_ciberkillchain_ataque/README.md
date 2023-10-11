@@ -30,7 +30,7 @@ Realizar un ataque de ransomware contra la base de datos del sistema de gestión
   - Técnica: Supply Chain Compromise [T1195.002](https://attack.mitre.org/techniques/T1195/002/)
   
 * Delivery
-  - Utilizo correos electrónicos de phishing altamente personalizados para entregar el malware a través de un enlace malicioso.
+  - Utilizo correos electrónicos de phishing personalizados para entregar el malware a través de un enlace malicioso.
   - Técnica: Phishing for Information [T1198.003](https://attack.mitre.org/techniques/T1598/003/)
   
 * Exploit
