@@ -58,7 +58,7 @@ Para cada etapa elegir una sola defensa, la más importante, considerar recursos
   - Defensa: integridad de la cadena de abastecimiento
   - Garantizar la integridad de la cadena de suministro es fundamental para prevenir el suministro de software o actualizaciones comprometidas que puedan incluir ransomware. Las acciones defensivas incluyen:
     - Verificación de Origen: Validar la autenticidad de las actualizaciones de software y solo adquirir software de fuentes confiables.
-    - Monitoreo de la Cadena de Suministro: Establecer procedimientos de monitoreo y auditoría en la cadena de suministro de software y hardware.
+
 
 * Reconnaissance:
 
