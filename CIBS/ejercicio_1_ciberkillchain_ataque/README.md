@@ -23,31 +23,30 @@ Realizar un ataque de ransomware contra la base de datos del sistema de gestión
 * Reconnaissance
   - Identifico el proyecto de gestión de ganado IoT y las tecnologías utilizadas.
   - Investigación adicional sobre posibles vulnerabilidades conocidas en las tecnologías y plataformas utilizadas.
-  - Técnica: Gather Victim Host Information [T1592](https://attack.mitre.org/techniques/T1592/)
+  - Técnica: Gather Victim Host Information [T1592.004](https://attack.mitre.org/techniques/T1592/004/)
 
 * Weaponization
   - Desarrollo o adquiero un malware de ransomware diseñado para cifrar datos.
-  - Técnica: Supply Chain Compromise [T1195](https://attack.mitre.org/techniques/T1195/)
+  - Técnica: Supply Chain Compromise [T1195.002](https://attack.mitre.org/techniques/T1195/002/)
   
 * Delivery
-  - Utilizo correos electrónicos de phishing altamente personalizados para entregar el malware a través de un enlace o archivo malicioso.
-  - Técnica: Phishing for Information [T1198](https://attack.mitre.org/techniques/T1598/)
+  - Utilizo correos electrónicos de phishing altamente personalizados para entregar el malware a través de un enlace malicioso.
+  - Técnica: Phishing for Information [T1198.003](https://attack.mitre.org/techniques/T1598/003/)
   
 * Exploit
-  - Si un empleado cae en la trampa y abre el archivo adjunto o hace clic en el enlace, el ransomware se activa y comienza a cifrar los datos en el sistema.
-  - Técnica: User Execution [T1204](https://attack.mitre.org/techniques/T1204/)
+  - Si un empleado cae en la trampa y hace clic en el enlace, el ransomware se activa y comienza a cifrar los datos en el sistema.
+  - Técnica: User Execution [T1204.001](https://attack.mitre.org/techniques/T1204/001/)
   
 * Installation  
-  - El ransomware se propaga cifrando archivos en los dispositivos IoT y en los servidores de la plataforma en la nube.
-  - Técnica: Ingress Tool Transfer [T1105](https://attack.mitre.org/techniques/T1105/) / Data Encrypted for Impact [T1486](https://attack.mitre.org/techniques/T1486/)
+  - El ransomware cifra archivos en los dispositivos IoT y en los servidores de la plataforma en la nube.
+  - Técnica: Data Encrypted for Impact [T1486](https://attack.mitre.org/techniques/T1486/) - Ejemplo: [S1486](https://attack.mitre.org/software/S0446/)
 
 * Command & Control
   - Establezco una conexión segura a través de una red privada virtual (VPN) para controlar el ransomware de manera anónima.
-  - Técnica: Remote Access Tools [T1219](https://attack.mitre.org/techniques/T1219/)
+  - Técnica: Remote Access Tools [T1219](https://attack.mitre.org/techniques/T1219/) - Ejemplo: [S0030](https://attack.mitre.org/software/S0030/)
   
 * Actions on Objectives
   - Una vez que los datos están cifrados, muestro un mensaje de rescate en las pantallas de la plataforma, exigiendo un pago en criptomonedas a cambio de la clave de descifrado.
-  - Técnica: Endpoint Denial of Service [T1499](https://attack.mitre.org/techniques/T1499/) / Data Encrypted for Impact [T1486](https://attack.mitre.org/techniques/T1486/)
 
   
 ### Links
